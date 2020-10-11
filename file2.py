@@ -30,7 +30,10 @@ def myellipse(center: list, color: list, a: int, b: int):
     b -- semi-minor axis of an ellipse
     
     '''
-    pygame.draw.ellipse(screen, color, (center[0] - a, center[1] - b, 2 * a, 2 * b))
+    pygame.draw.ellipse(
+                     screen, color,
+                     (center[0] - a, center[1] - b, 2 * a, 2 * b)
+                     )
 
 
 def UFO(size: float, center: list):
@@ -54,13 +57,18 @@ def UFO(size: float, center: list):
     for element in light:
         element[0] = int(element[0] * size)
         element[1] = int(element[1] * size)
-    surface_light = pygame.Surface((int(320 * size), int(250 * size)), pygame.SRCALPHA)
+    surface_light = pygame.Surface((int(320 * size), int(250 * size)),
+                                    pygame.SRCALPHA)
     pygame.draw.polygon(surface_light, (255, 255, 255, 40), light)
-    screen.blit(surface_light, (center[0] - int(160 * size), center[1] + int(50 * size)))
+    screen.blit(surface_light,
+                (center[0] - int(160 * size), center[1] + int(50 * size)))
     # drawing illuminaters
-    illuminaters = [(center[0] - int(146 * size), center[0] + int(146 * size), center[1] + int(4 * size)),
-                    (center[0] - int(95 * size), center[0] + int(95 * size), center[1] + int(28 * size)),
-                    (center[0] - int(33 * size), center[0] + int(33 * size), center[1] + int(40 * size))]
+    illuminaters = [(center[0] - int(146 * size), center[0] + int(146 * size),
+                    center[1] + int(4 * size)),
+                    (center[0] - int(95 * size), center[0] + int(95 * size),
+                    center[1] + int(28 * size)),
+                    (center[0] - int(33 * size), center[0] + int(33 * size),
+                    center[1] + int(40 * size))]
     for x1, x2, y in illuminaters:
         myellipse([x1, y], (255, 255, 255), int(22 * size), int(8 * size))
         myellipse([x2, y], (255, 255, 255), int(22 * size), int(8 * size))
@@ -71,87 +79,153 @@ def Alien(size: float, center: list, direct: int):
     Keyword arguments:
     size -- measure of the square root of the area of an alien
     center -- center point of the drawn Alien as a sequence of two ints
-    direct -- orientation of an object in space(1 - straight orientation,-1 - reverse orientation)
+    direct -- orientation of an object in space
+              (1 - straight orientation,-1 - reverse orientation)
 
     '''
     # calculating the size of parts of an alien
-    basehead = [(center[0] + int(5 * size) * direct, center[1] - int(60 * size)),
-                (center[0] - int(20 * size) * direct, center[1] - int(103 * size)),
-                (center[0] + int(30 * size) * direct, center[1] - int(103 * size))]
+    basehead = [
+        (center[0] + int(5 * size) * direct, center[1] - int(60 * size)),
+        (center[0] - int(20 * size) * direct, center[1] - int(103 * size)),
+        (center[0] + int(30 * size) * direct, center[1] - int(103 * size))
+        ]
+                
+    rightline = [
+        (center[0] + int(5 * size) * direct, center[1] - int(85 * size)),
+        (center[0] + int(41 * size) * direct, center[1] - int(96 * size)),
+        (center[0] + int(16 * size) * direct, center[1] - int(53 * size))
+        ]
 
-    rightline = [(center[0] + int(5 * size) * direct, center[1] - int(85 * size)),
-                 (center[0] + int(41 * size) * direct, center[1] - int(96 * size)),
-                 (center[0] + int(16 * size) * direct, center[1] - int(53 * size))]
+    leftline = [
+        (center[0] + int(5 * size) * direct, center[1] - int(85 * size)),
+        (center[0] - int(31 * size) * direct, center[1] - int(96 * size)),
+        (center[0] - int(6 * size) * direct, center[1] - int(53 * size))]
 
-    leftline = [(center[0] + int(5 * size) * direct, center[1] - int(85 * size)),
-                (center[0] - int(31 * size) * direct, center[1] - int(96 * size)),
-                (center[0] - int(6 * size) * direct, center[1] - int(53 * size))]
-
-    upperline = [(center[0], center[1] - int(85 * size)), (center[0] - int(25 * size), center[1] - int(117 * size)),
+    upperline = [(center[0], center[1] - int(85 * size)),
+                 (center[0] - int(25 * size), center[1] - int(117 * size)),
                  (center[0] + int(25 * size), center[1] - int(117 * size))]
 
-    rightleg = [((center[0] + int(18 * size) * direct, center[1] + int(55 * size)), int(12 * size), int(20 * size)),
-                ((center[0] + int(28 * size) * direct, center[1] + int(90 * size)), int(10 * size), int(25 * size)),
-                ((center[0] + int(40 * size) * direct, center[1] + int(115 * size)), int(12 * size), int(12 * size))]
+    rightleg = [
+        ((center[0] + int(18 * size) * direct, center[1] + int(55 * size)),
+        int(12 * size), int(20 * size)),
+        ((center[0] + int(28 * size) * direct, center[1] + int(90 * size)),
+        int(10 * size), int(25 * size)),
+        ((center[0] + int(40 * size) * direct, center[1] + int(115 * size)),
+        int(12 * size), int(12 * size))
+        ]
 
-    rightarm = [((center[0] + int(32 * size) * direct, center[1] - int(30 * size)), int(14 * size), int(14 * size)),
-                ((center[0] + int(48 * size) * direct, center[1] - int(22 * size)), int(12 * size), int(8 * size)),
-                ((center[0] + int(70 * size) * direct, center[1] - int(15 * size)), int(14 * size), int(7 * size))]
+    rightarm = [
+        ((center[0] + int(32 * size) * direct, center[1] - int(30 * size)),
+        int(14 * size), int(14 * size)),
+        ((center[0] + int(48 * size) * direct, center[1] - int(22 * size)),
+        int(12 * size), int(8 * size)),
+        ((center[0] + int(70 * size) * direct, center[1] - int(15 * size)),
+        int(14 * size), int(7 * size))
+        ]
 
-    leftleg = [((center[0] - int(22 * size) * direct, center[1] + int(40 * size)), int(12 * size), int(20 * size)),
-               ((center[0] - int(30 * size) * direct, center[1] + int(75 * size)), int(10 * size), int(22 * size)),
-               ((center[0] - int(40 * size) * direct, center[1] + int(100 * size)), int(12 * size), int(12 * size))]
+    leftleg = [
+        ((center[0] - int(22 * size) * direct, center[1] + int(40 * size)),
+        int(12 * size), int(20 * size)),
+        ((center[0] - int(30 * size) * direct, center[1] + int(75 * size)),
+        int(10 * size), int(22 * size)),
+        ((center[0] - int(40 * size) * direct, center[1] + int(100 * size)),
+        int(12 * size), int(12 * size))]
 
-    leftarm = [((center[0] - int(24 * size) * direct, center[1] - int(36 * size)), int(14 * size), int(14 * size)),
-               ((center[0] - int(38 * size) * direct, center[1] - int(20 * size)), int(10 * size), int(7 * size)),
-               ((center[0] - int(49 * size) * direct, center[1] - int(5 * size)), int(5 * size), int(7 * size))]
+    leftarm = [
+        ((center[0] - int(24 * size) * direct, center[1] - int(36 * size)),
+        int(14 * size), int(14 * size)),
+        ((center[0] - int(38 * size) * direct, center[1] - int(20 * size)),
+        int(10 * size), int(7 * size)),
+        ((center[0] - int(49 * size) * direct, center[1] - int(5 * size)),
+        int(5 * size), int(7 * size))
+        ]
 
-    leftear = [((center[0] - int(28 * size) * direct, center[1] - int(125 * size)), int(7 * size), int(10 * size)),
-               ((center[0] - int(40 * size) * direct, center[1] - int(140 * size)), int(10 * size), int(10 * size)),
-               ((center[0] - int(45 * size) * direct, center[1] - int(160 * size)), int(11 * size), int(6 * size)),
-               ((center[0] - int(49 * size) * direct, center[1] - int(175 * size)), int(12 * size), int(10 * size))]
+    leftear = [
+        ((center[0] - int(28 * size) * direct, center[1] - int(125 * size)),
+        int(7 * size), int(10 * size)),
+        ((center[0] - int(40 * size) * direct, center[1] - int(140 * size)),
+        int(10 * size), int(10 * size)),
+        ((center[0] - int(45 * size) * direct, center[1] - int(160 * size)), 
+        int(11 * size), int(6 * size)),
+        ((center[0] - int(49 * size) * direct, center[1] - int(175 * size)), 
+        int(12 * size), int(10 * size))
+        ]
 
-    rightear = [((center[0] + int(42 * size) * direct, center[1] - int(117 * size)), int(10 * size), int(10 * size)),
-                ((center[0] + int(47 * size) * direct, center[1] - int(127 * size)), int(6 * size), int(11 * size)),
-                ((center[0] + int(60 * size) * direct, center[1] - int(145 * size)), int(8 * size), int(8 * size)),
-                ((center[0] + int(78 * size) * direct, center[1] - int(155 * size)), int(7 * size), int(5 * size)),
-                ((center[0] + int(92 * size) * direct, center[1] - int(152 * size)), int(10 * size), int(15 * size))]
+    rightear = [
+        ((center[0] + int(42 * size) * direct, center[1] - int(117 * size)),
+        int(10 * size), int(10 * size)),
+        ((center[0] + int(47 * size) * direct, center[1] - int(127 * size)),
+        int(6 * size), int(11 * size)),
+        ((center[0] + int(60 * size) * direct, center[1] - int(145 * size)),
+        int(8 * size), int(8 * size)),
+        ((center[0] + int(78 * size) * direct, center[1] - int(155 * size)),
+        int(7 * size), int(5 * size)),
+        ((center[0] + int(92 * size) * direct, center[1] - int(152 * size)), 
+        int(10 * size), int(15 * size))
+        ]
     
     # drawing body
     myellipse(center, (221, 233, 175), int(25 * size), int(60 * size))
     # drawing head
     pygame.draw.polygon(screen, (221, 233, 175), basehead)
-    pygame.draw.circle(screen, (221, 233, 175),
-                       (center[0] + int(5 * size) * direct, center[1] - int(60 * size)), int(14 * size))
-    pygame.draw.circle(screen, (221, 233, 175),
-                       (center[0] + int(30 * size) * direct, center[1] - int(103 * size)), int(14 * size))
-    pygame.draw.circle(screen, (221, 233, 175),
-                      (center[0] - int(20 * size) * direct, center[1] - int(103 * size)), int(14 * size))
+    pygame.draw.circle(
+        screen, (221, 233, 175),
+        (center[0] + int(5 * size) * direct, center[1] - int(60 * size)),
+        int(14 * size)
+        )
+    pygame.draw.circle(
+        screen, (221, 233, 175), 
+        (center[0] + int(30 * size) * direct, center[1] - int(103 * size)),
+        int(14 * size)
+        )
+    pygame.draw.circle(
+        screen, (221, 233, 175),
+        (center[0] - int(20 * size) * direct, center[1] - int(103 * size)),
+        int(14 * size)
+        )
     pygame.draw.polygon(screen, (221, 233, 175), rightline)
     pygame.draw.polygon(screen, (221, 233, 175), leftline)
     pygame.draw.polygon(screen, (221, 233, 175), upperline)
     # drawing apple
-    pygame.draw.circle(screen, (255, 0, 0), (center[0] + int(80 * size) * direct, center[1] - int(40 * size)),
-                      int(25 * size))
-    pygame.draw.line(screen, (0, 0, 0), (center[0] + int(80 * size) * direct, center[1] - int(60 * size)),
-                     (center[0] + int(100 * size) * direct, center[1] - int(75 * size)), 4)
+    pygame.draw.circle(
+        screen, (255, 0, 0),
+        (center[0] + int(80 * size) * direct, center[1] - int(40 * size)),
+        int(25 * size)
+        )
+    pygame.draw.line(
+        screen, (0, 0, 0),
+        (center[0] + int(80 * size) * direct, center[1] - int(60 * size)),
+        (center[0] + int(100 * size) * direct, center[1] - int(75 * size)), 4
+        )
     leaf = pygame.Surface((40 * size, 40 * size), pygame.SRCALPHA)
-    pygame.draw.ellipse(leaf, (130, 160, 0), (0, 0, int(20 * size), (10 * size)))
+    pygame.draw.ellipse(leaf, (130, 160, 0), 
+                        (0, 0, int(20 * size), (10 * size)))
     leaf = pygame.transform.rotate(leaf, -30 * direct)
-    screen.blit(leaf, (center[0] + int((80 - 5 * direct) * size) * direct, center[1] - int((77 - 7 * direct) * size)))
+    screen.blit(leaf, (center[0] + int((80 - 5 * direct) * size) * direct,
+                center[1] - int((77 - 7 * direct) * size)))
     # drawing eyes
-    pygame.draw.circle(screen, (0, 0, 0),
-                       (center[0] + int(25 * size) * direct, center[1] - int(93 * size)), int(9 * size))
-    pygame.draw.circle(screen, (0, 0, 0),
-                       (center[0] - int(13 * size) * direct, center[1] - int(95 * size)), int(12 * size))
-    pygame.draw.circle(screen, (255, 255, 255),
-                       (center[0] + int(26 * size) * direct, center[1] - int(92 * size)), int(3 * size))
-    pygame.draw.circle(screen, (255, 255, 255),
-                       (center[0] - int(11 * size) * direct, center[1] - int(93 * size)), int(4 * size))
+    pygame.draw.circle(
+        screen, (0, 0, 0), (center[0] + int(25 * size) * direct,
+        center[1] - int(93 * size)), int(9 * size)
+        )
+    pygame.draw.circle(
+        screen, (0, 0, 0), (center[0] - int(13 * size) * direct,
+        center[1] - int(95 * size)), int(12 * size)
+        )
+    pygame.draw.circle(
+        screen, (255, 255, 255), (center[0] + int(26 * size) * direct,
+        center[1] - int(92 * size)), int(3 * size)
+        )
+    pygame.draw.circle(
+        screen, (255, 255, 255), (center[0] - int(11 * size) * direct,
+        center[1] - int(93 * size)), int(4 * size)
+        )
     # drawing nose
-    myellipse((center[0] + int(7 * size) * direct, center[1] - int(80 * size)), (0, 0, 0), int(2 * size), int(4 * size))
+    myellipse((center[0] + int(7 * size) * direct, center[1] - int(80 * size)),
+              (0, 0, 0), int(2 * size), int(4 * size))
     # drawing mouth
-    myellipse((center[0] + int(8 * size) * direct, center[1] - int(62 * size)), (0, 0, 0), int(5 * size), int(3 * size))
+    myellipse((center[0] + int(8 * size) * direct, center[1] - int(62 * size)),
+              (0, 0, 0), int(5 * size), int(3 * size))
     # drawing legs, arms, ears
     for center, a, b in leftleg:
         myellipse(center, (221, 233, 175), a, b)
@@ -174,12 +248,17 @@ FPS = 30
 screenwidth = 794
 screenhight = 1123
 # parameters of objects to be drawn
-lightclouds_coordinates = [(-600, 20, 400, 220), (500, -25, 1100, 95), (350, 130, 1050, 270),
-               (250, 300, 950, 450), (-150, 250, 530, 400)]
-darkclouds_coordinates = [(120, 80, 980, 200), (-333, 200, 333, 360), (169, 380, 835, 530)]
+lightclouds_coordinates = [
+    (-600, 20, 400, 220), (500, -25, 1100, 95), (350, 130, 1050, 270),
+    (250, 300, 950, 450), (-150, 250, 530, 400)
+    ]
+darkclouds_coordinates = [(120, 80, 980, 200), (-333, 200, 333, 360),
+                          (169, 380, 835, 530)]
 UFOs_coordinates = [(0.8, (180, 450)), (0.3, (370, 550)), (0.5, (600, 450))]
-ALIENs_coordinates = [(0.9, (560, 750), 1), (0.5, (75, 720), -1), (0.3, (200, 650), -1),
-                      (0.4, (300, 710), 1), (0.6, (230, 870), -1)]
+ALIENs_coordinates = [
+    (0.9, (560, 750), 1), (0.5, (75, 720), -1), (0.3, (200, 650), -1),
+    (0.4, (300, 710), 1), (0.6, (230, 870), -1)
+    ]
 
 # screens
 screen = pygame.display.set_mode((screenwidth, screenhight))
@@ -195,7 +274,9 @@ for cloud_coordinate in darkclouds_coordinates:
     draw_cloud(cloud_coordinate, (51, 51, 51, 150))   
 img = img.filter(ImageFilter.BLUR)
 raw_clouds = img.tobytes("raw", 'RGBA')
-surf_clouds = pygame.image.fromstring(raw_clouds, (screenwidth, screenhight), 'RGBA')
+surf_clouds = pygame.image.fromstring(
+    raw_clouds, (screenwidth, screenhight), 'RGBA'
+    )
 screen.blit(surf_clouds, (0, 0))
 
 # drawing UFOs
