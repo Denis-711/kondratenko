@@ -1,33 +1,80 @@
 import pygame
 from PIL import Image, ImageDraw, ImageFilter
 
+def draw_background():
+    ''' Function draws a background for that certain picture'''
+    pygame.draw.rect(screen, (0, 34, 43), (0, 0, 794, 579))
+    pygame.draw.rect(screen, (34, 43, 0), (0, 579, 794, 1123))
+    pygame.draw.circle(screen, (242, 242, 242), (510, 265), 120)
+    pygame.draw.circle(screen, (255, 255, 210), (455, 240), 30)
+    pygame.draw.circle(screen, (255, 255, 210), (458, 255), 20)
+    pygame.draw.circle(screen, (255, 255, 210), (462, 270), 15)
+    
+def draw_cloud(cloud_cords, color):
+    ''' Function draws cloud.
+    
+    Keyword argumants:
+    cloud_cords -- coordinates of two points defining bounding box
+    color -- cloud color
+    
+    '''
+    idraw.ellipse(cloud_cords, color, None)
+
 def myellipse(center: list, color: list, a: int, b: int):
+    '''Function draws an ellipse.
+    
+    Keyword arguments:
+    center -- center point of the ellipse as a sequence of two ints
+    color -- color of drawn ellipse in RGB code
+    a -- semi-major axis of an ellipse
+    b -- semi-minor axis of an ellipse
+    
+    '''
     pygame.draw.ellipse(screen, color, (center[0] - a, center[1] - b, 2 * a, 2 * b))
 
+
 def UFO(size: float, center: list):
+    '''Function draws an UFO.
+    
+    Keyword arguments:
+    center -- center point of the drawn UFO as a sequance of two ints
+    size -- measure of the square root of the area of an UFO
+    
+    '''
+    # calculating the size of parts of an UFO
     a1 = int(175 * size)
     b1 = int(60 * size)
     a2 = int(125 * size)
     b2 = int(45 * size)
+    # drawing UFO's body
+    myellipse(center, (153, 153, 153), a1, b1)
+    myellipse([center[0], center[1] - int(25 * size)], (204, 204, 204), a2, b2)
+    # drawing light
     light = [[100, 0], [190, 0], [320, 250], [0, 250]]
-    for x, y in light:
-        x, y = int(x * size), int(y * size)
     for element in light:
         element[0] = int(element[0] * size)
         element[1] = int(element[1] * size)
-    illuminaters = [(center[0] - int(146 * size), center[0] + int(146 * size), center[1] + int(4 * size)),
-                    (center[0] - int(95 * size), center[0] + int(95 * size), center[1] + int(28 * size)),
-                    (center[0] - int(33 * size), center[0] + int(33 * size), center[1] + int(40 * size))]
     surface_light = pygame.Surface((int(320 * size), int(250 * size)), pygame.SRCALPHA)
     pygame.draw.polygon(surface_light, (255, 255, 255, 40), light)
     screen.blit(surface_light, (center[0] - int(160 * size), center[1] + int(50 * size)))
-    myellipse(center, (153, 153, 153), a1, b1)
-    myellipse([center[0], center[1] - int(25 * size)], (204, 204, 204), a2, b2)
+    # drawing illuminaters
+    illuminaters = [(center[0] - int(146 * size), center[0] + int(146 * size), center[1] + int(4 * size)),
+                    (center[0] - int(95 * size), center[0] + int(95 * size), center[1] + int(28 * size)),
+                    (center[0] - int(33 * size), center[0] + int(33 * size), center[1] + int(40 * size))]
     for x1, x2, y in illuminaters:
         myellipse([x1, y], (255, 255, 255), int(22 * size), int(8 * size))
         myellipse([x2, y], (255, 255, 255), int(22 * size), int(8 * size))
 
 def Alien(size: float, center: list, direct: int):
+    '''Function draws an alien.
+    
+    Keyword arguments:
+    size -- measure of the square root of the area of an alien
+    center -- center point of the drawn Alien as a sequence of two ints
+    direct -- orientation of an object in space(1 - straight orientation,-1 - reverse orientation)
+
+    '''
+    # calculating the size of parts of an alien
     basehead = [(center[0] + int(5 * size) * direct, center[1] - int(60 * size)),
                 (center[0] - int(20 * size) * direct, center[1] - int(103 * size)),
                 (center[0] + int(30 * size) * direct, center[1] - int(103 * size))]
@@ -69,22 +116,30 @@ def Alien(size: float, center: list, direct: int):
                 ((center[0] + int(60 * size) * direct, center[1] - int(145 * size)), int(8 * size), int(8 * size)),
                 ((center[0] + int(78 * size) * direct, center[1] - int(155 * size)), int(7 * size), int(5 * size)),
                 ((center[0] + int(92 * size) * direct, center[1] - int(152 * size)), int(10 * size), int(15 * size))]
-
+    
+    # drawing body
     myellipse(center, (221, 233, 175), int(25 * size), int(60 * size))
+    # drawing head
     pygame.draw.polygon(screen, (221, 233, 175), basehead)
     pygame.draw.circle(screen, (221, 233, 175),
                        (center[0] + int(5 * size) * direct, center[1] - int(60 * size)), int(14 * size))
     pygame.draw.circle(screen, (221, 233, 175),
                        (center[0] + int(30 * size) * direct, center[1] - int(103 * size)), int(14 * size))
     pygame.draw.circle(screen, (221, 233, 175),
-                       (center[0] - int(20 * size) * direct, center[1] - int(103 * size)), int(14 * size))
+                      (center[0] - int(20 * size) * direct, center[1] - int(103 * size)), int(14 * size))
     pygame.draw.polygon(screen, (221, 233, 175), rightline)
     pygame.draw.polygon(screen, (221, 233, 175), leftline)
     pygame.draw.polygon(screen, (221, 233, 175), upperline)
+    # drawing apple
     pygame.draw.circle(screen, (255, 0, 0), (center[0] + int(80 * size) * direct, center[1] - int(40 * size)),
-                       int(25 * size))
+                      int(25 * size))
     pygame.draw.line(screen, (0, 0, 0), (center[0] + int(80 * size) * direct, center[1] - int(60 * size)),
                      (center[0] + int(100 * size) * direct, center[1] - int(75 * size)), 4)
+    leaf = pygame.Surface((40 * size, 40 * size), pygame.SRCALPHA)
+    pygame.draw.ellipse(leaf, (130, 160, 0), (0, 0, int(20 * size), (10 * size)))
+    leaf = pygame.transform.rotate(leaf, -30 * direct)
+    screen.blit(leaf, (center[0] + int((80 - 5 * direct) * size) * direct, center[1] - int((77 - 7 * direct) * size)))
+    # drawing eyes
     pygame.draw.circle(screen, (0, 0, 0),
                        (center[0] + int(25 * size) * direct, center[1] - int(93 * size)), int(9 * size))
     pygame.draw.circle(screen, (0, 0, 0),
@@ -93,12 +148,11 @@ def Alien(size: float, center: list, direct: int):
                        (center[0] + int(26 * size) * direct, center[1] - int(92 * size)), int(3 * size))
     pygame.draw.circle(screen, (255, 255, 255),
                        (center[0] - int(11 * size) * direct, center[1] - int(93 * size)), int(4 * size))
+    # drawing nose
     myellipse((center[0] + int(7 * size) * direct, center[1] - int(80 * size)), (0, 0, 0), int(2 * size), int(4 * size))
+    # drawing mouth
     myellipse((center[0] + int(8 * size) * direct, center[1] - int(62 * size)), (0, 0, 0), int(5 * size), int(3 * size))
-    leaf = pygame.Surface((40 * size, 40 * size), pygame.SRCALPHA)
-    pygame.draw.ellipse(leaf, (130, 160, 0), (0, 0, int(20 * size), (10 * size)))
-    leaf = pygame.transform.rotate(leaf, -30 * direct)
-    screen.blit(leaf, (center[0] + int((80 - 5 * direct) * size) * direct, center[1] - int((77 - 7 * direct) * size)))
+    # drawing legs, arms, ears
     for center, a, b in leftleg:
         myellipse(center, (221, 233, 175), a, b)
     for center, a, b in rightleg:
@@ -119,42 +173,36 @@ pygame.init()
 FPS = 30
 screenwidth = 794
 screenhight = 1123
-lightclouds = [(-600, 20, 400, 220), (500, -25, 1100, 95), (350, 130, 1050, 270),
+# parameters of objects to be drawn
+lightclouds_coordinates = [(-600, 20, 400, 220), (500, -25, 1100, 95), (350, 130, 1050, 270),
                (250, 300, 950, 450), (-150, 250, 530, 400)]
-darkclouds = [(120, 80, 980, 200), (-333, 200, 333, 360), (169, 380, 835, 530)]
+darkclouds_coordinates = [(120, 80, 980, 200), (-333, 200, 333, 360), (169, 380, 835, 530)]
 UFOs_coordinates = [(0.8, (180, 450)), (0.3, (370, 550)), (0.5, (600, 450))]
 ALIENs_coordinates = [(0.9, (560, 750), 1), (0.5, (75, 720), -1), (0.3, (200, 650), -1),
                       (0.4, (300, 710), 1), (0.6, (230, 870), -1)]
 
 # screens
 screen = pygame.display.set_mode((screenwidth, screenhight))
+# drawing background
+draw_background()
 
-# background
-
-pygame.draw.rect(screen, (0, 34, 43), (0, 0, 794, 579))
-pygame.draw.rect(screen, (34, 43, 0), (0, 579, 794, 1123))
-pygame.draw.circle(screen, (242, 242, 242), (510, 265), 120)
-pygame.draw.circle(screen, (255, 255, 210), (455, 240), 30)
-pygame.draw.circle(screen, (255, 255, 210), (458, 255), 20)
-pygame.draw.circle(screen, (255, 255, 210), (462, 270), 15)
-# clouds
-
+# drawing clouds
 img = Image.new('RGBA', (screenwidth, screenhight), (0, 0, 0, 0))
 idraw = ImageDraw.Draw(img)
-
-for cloud in lightclouds:
-    idraw.ellipse(cloud, (102, 102, 102, 150), None)
-for cloud in darkclouds:
-    idraw.ellipse(cloud, (51, 51, 51, 150), None)
+for cloud_coordinate in lightclouds_coordinates:
+    draw_cloud(cloud_coordinate, (102, 102, 102, 150))
+for cloud_coordinate in darkclouds_coordinates:
+    draw_cloud(cloud_coordinate, (51, 51, 51, 150))   
 img = img.filter(ImageFilter.BLUR)
 raw_clouds = img.tobytes("raw", 'RGBA')
 surf_clouds = pygame.image.fromstring(raw_clouds, (screenwidth, screenhight), 'RGBA')
 screen.blit(surf_clouds, (0, 0))
-# UFO
+
+# drawing UFOs
 for size, center in UFOs_coordinates:
     UFO(size, center)
 
-# Alien
+# drawing aliens
 for size, center, direction in ALIENs_coordinates:
     Alien(size, center, direction)
 
@@ -169,4 +217,3 @@ while not finished:
             finished = True
 
 pygame.quit()
-
